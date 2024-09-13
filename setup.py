@@ -20,6 +20,6 @@ setup(
     version="0.0.1",
     aurthor="ankit",
     email='ag8712117@gmail.com',
-    install_requirements=get_requirements('requirement.txt') 
+    install_requirements=get_requirements('requirement.txt'), 
     packages=find_packages()
 )
