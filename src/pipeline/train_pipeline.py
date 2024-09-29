@@ -19,7 +19,7 @@ class TrainingPipeline:
     def start_data_transformation(self,feature_Store_file_path):
         try:
             data_transformation=DataTransformation(feature_store_file_path=feature_Store_file_path)
-            train_arr,test_arr,preprocessor_path=data_transformation.initate_data_transformation
+            train_arr,test_arr,preprocessor_path=data_transformation.initate_data_transformation()
             return train_arr,test_arr,preprocessor_path
         
         except Exception as e:

@@ -22,7 +22,8 @@ class PredictionPipelineConfig:
     predection_file_path:str=os.path.join(predection_output_dirname,predection_file_name)
     
 class PredectionPipeline:
-    def __init__(self,request:request):
+
+    def __init__(self,request: request):
         
         self.request=request
         self.utils=MainUtils()
@@ -30,10 +31,10 @@ class PredectionPipeline:
     
     def save_input_file(self) -> str:
         try:
-            pred_file_input_dir="predection_artifacets"
+            pred_file_input_dir="prediction_artifacets"
             os.makedirs(pred_file_input_dir,exist_ok=True)
             
-            input_csv_file=self.request.file['file']
+            input_csv_file=self.request.files['file']
             pred_file_path=os.path.join(pred_file_input_dir,input_csv_file.filename)
             
             input_csv_file.save(pred_file_path)

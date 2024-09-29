@@ -19,7 +19,7 @@ from dataclasses import dataclass
 @dataclass
 class ModelTrainerConfig:
     artifact_folder=os.path.join(artifact_folder)
-    tained_model_path=os.path.joim(artifact_folder,"model.pkl")
+    tained_model_path=os.path.join(artifact_folder,"model.pkl")
     expected_accuracy=0.45
     model_config_file_path=os.path.join('config','model.yaml')
     
@@ -30,10 +30,10 @@ class ModelTrainer:
         self.utils=MainUtils()
         
         self.models={
-            'XGBClassifire':XGBClassifier(),
+            'XGBClassifier':XGBClassifier(),
             "GradientBoostingClassifier":GradientBoostingClassifier(),
             "RandomForestClassifier":RandomForestClassifier(),
-            "SVC":SVC
+            "SVC":SVC()
         }
         
     def evaluate_model(self,x,y,models):
@@ -43,14 +43,14 @@ class ModelTrainer:
             report={}
             
             for i in range(len(list(models))):
-                model=list(models.values())[i]
+                model = list(models.values())[i]
                 
-                model.fit(x_train,y_train) 
+                model.fit(x_train,y_train)
                 y_train_prid=model.predict(x_train)
                 
                 y_test_prid=model.predict(x_test)
                 
-                train_model_score=accuracy_score(y_test,y_train_prid)
+                train_model_score=accuracy_score(y_train,y_train_prid)
                 test_model_score=accuracy_score(y_test,y_test_prid)
                 
                 report[list(models.keys())[i]]=test_model_score
@@ -97,7 +97,7 @@ class ModelTrainer:
                             y_train) -> object:
         
         try:
-            model_param_grid=self.utils.read_yaml_file(self.model_trainer_config.model_config_file_path)["model_selection"]["model"][best_model_name]["search_paran_grid"]
+            model_param_grid=self.utils.read_yaml_file(self.model_trainer_config.model_config_file_path)["model_selection"]["model"][best_model_name]["search_param_grid"]
             
             grid_searc=GridSearchCV(
                 best_model_obj,param_grid=model_param_grid,cv=5,n_jobs=-1,verbose=1
@@ -124,7 +124,7 @@ class ModelTrainer:
                 train_arry[:,:-1],
                 train_arry[:,-1],
                 test_array[:,:-1],
-                test_array[:,-1]
+                test_array[:,-1],
             ) 
             logging.info(f"Extracting model config file path")
             

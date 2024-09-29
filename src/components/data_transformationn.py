@@ -35,7 +35,9 @@ class DataTransformation:
         try:
             data=pd.read_csv(feature_store_file_path) 
             
-            data.rename({'Good/bad':TARGET_COLUMN},inplace=True)
+            data.rename(columns={'Good/Bad':TARGET_COLUMN},inplace=True)
+            
+            return data
             
         except Exception as e:
             raise CustomException(e,sys ) 
@@ -62,9 +64,9 @@ class DataTransformation:
         logging.info("initated data transformation method of data transformation class")
         
         try:
-            dataframe=self.get_data(file_path=self.feature_store_file_path) 
+            dataframe=self.get_data(feature_store_file_path=self.feature_store_file_path) 
             
-            x=dataframe.drop(column=TARGET_COLUMN,axis=1)
+            x=dataframe.drop(columns=TARGET_COLUMN)
             y=np.where(dataframe[TARGET_COLUMN]==-1,0,1)
             
             x_train,x_test,y_train,y_test=train_test_split(x,y,test_size=.2,random_state=42)
@@ -77,8 +79,8 @@ class DataTransformation:
             
             self.utils.save_object(file_path=preprocessor_path,obj=preprocessor)
             
-            train_arr=np.c[x_train_scaled,np.array(y_train)]
-            test_arr=np.c[x_test_scaled,np.array(y_test)] 
+            train_arr=np.c_[x_train_scaled,np.array(y_train)]
+            test_arr=np.c_[x_test_scaled,np.array(y_test)] 
             
             return (train_arr,test_arr,preprocessor_path)
         
